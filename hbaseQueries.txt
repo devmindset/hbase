@@ -1,0 +1,337 @@
+ubuntu@ubuntu:/usr/local/hadoop/bin$ start-all.sh
+Warning: $HADOOP_HOME is deprecated.
+starting namenode, logging to /usr/local/hadoop/logs/hadoop-ubuntu-namenode-ubuntu.out
+localhost: starting datanode, logging to /usr/local/hadoop/libexec/../logs/hadoop-ubuntu-datanode-ubuntu.out
+localhost: starting secondarynamenode, logging to /usr/local/hadoop/libexec/../logs/hadoop-ubuntu-secondarynamenode-ubuntu.out
+starting jobtracker, logging to /usr/local/hadoop/logs/hadoop-ubuntu-jobtracker-ubuntu.out
+localhost: starting tasktracker, logging to /usr/local/hadoop/libexec/../logs/hadoop-ubuntu-tasktracker-ubuntu.out
+ubuntu@ubuntu:/usr/local/hadoop/bin$ jps
+2201 NameNode
+2536 SecondaryNameNode
+2796 TaskTracker
+2847 Jps
+2621 JobTracker
+2366 DataNode
+ubuntu@ubuntu:/usr/local/hadoop/bin$ 
+
+
+ubuntu@ubuntu:~$ cd /usr/local/hbase-0.94.5$ bin/start-hbase.sh
+bash: cd: /usr/local/hbase-0.94.5$: No such file or directory
+ubuntu@ubuntu:~$ cd /usr/local/hbase-0.94.5$ bin/
+bash: cd: /usr/local/hbase-0.94.5$: No such file or directory
+ubuntu@ubuntu:~$ cd /usr/local/hbase/bin
+ubuntu@ubuntu:/usr/local/hbase/bin$ start-hbase.sh
+localhost: starting zookeeper, logging to /usr/local/hbase/bin/../logs/hbase-ubuntu-zookeeper-ubuntu.out
+starting master, logging to /usr/local/hbase/logs/hbase-ubuntu-master-ubuntu.out
+localhost: starting regionserver, logging to /usr/local/hbase/bin/../logs/hbase-ubuntu-regionserver-ubuntu.out
+ubuntu@ubuntu:/usr/local/hbase/bin$ jps
+3596 HRegionServer
+2201 NameNode
+2536 SecondaryNameNode
+2796 TaskTracker
+3328 HQuorumPeer
+2621 JobTracker
+3838 Jps
+3393 HMaster
+2366 DataNode
+ubuntu@ubuntu:/usr/local/hbase/bin$ local-regionservers.sh start 1
+starting regionserver, logging to /usr/local/hbase/logs/hbase-ubuntu-1-regionserver-ubuntu.out
+ubuntu@ubuntu:/usr/local/hbase/bin$ jps
+4020 Jps
+3596 HRegionServer
+2201 NameNode
+3869 HRegionServer
+2536 SecondaryNameNode
+2796 TaskTracker
+3328 HQuorumPeer
+2621 JobTracker
+3393 HMaster
+2366 DataNode
+ubuntu@ubuntu:/usr/local/hbase/bin$ hbase shell
+HBase Shell; enter 'help<RETURN>' for list of supported commands.
+Type "exit<RETURN>" to leave the HBase Shell
+Version 0.94.18, r1577788, Sat Mar 15 04:46:47 UTC 2014
+
+hbase(main):001:0> 
+
+hbase(main):001:0> list
+TABLE                                                                                                                                                                              
+tab1                                                                                                                                                                               
+1 row(s) in 0.4180 seconds
+
+
+
+********************************
+You can create a table using the create command, here you must specify the table name and the Column Family name. 
+The syntax to create a table in HBase shell is shown below.
+create ‘<table name>’,’<column family>’ 
+
+hbase(main):001:0> create 'hbtable', 'cf'
+0 row(s) in 10.7720 seconds
+
+hbase(main):002:0> put 'hbtable', 'r1', 'cf:c1', 'v1'
+0 row(s) in 1.0210 seconds
+
+hbase(main):003:0> put 'hbtable', 'r2', 'cf:c2', 'v2'
+0 row(s) in 0.0520 seconds
+
+hbase(main):004:0> put 'hbtable', 'r3', 'cf:c3', 'v3'
+0 row(s) in 0.0190 seconds
+
+hbase(main):005:0> scan 'hbtable'
+ROW                   COLUMN+CELL                                               
+ r1                   column=cf:c1, timestamp=1399186300862, value=v1           
+ r2                   column=cf:c2, timestamp=1399186326438, value=v2           
+ r3                   column=cf:c3, timestamp=1399186340234, value=v3           
+3 row(s) in 0.2450 seconds
+
+hbase(main):006:0> get 'hbtable', 'r2'
+COLUMN                CELL                                                      
+ cf:c2                timestamp=1399186326438, value=v2                         
+1 row(s) in 0.0670 seconds
+
+hbase(main):007:0> put 'hbtable', 'r2', 'cf:c2','v2updated'
+0 row(s) in 0.0850 seconds
+
+hbase(main):008:0> get 'hbtable', 'r2'
+COLUMN                CELL                                                      
+ cf:c2                timestamp=1399186630582, value=v2updated                  
+1 row(s) in 0.0670 seconds
+
+hbase(main):009:0> scan 'hbtable'
+ROW                   COLUMN+CELL                                               
+ r1                   column=cf:c1, timestamp=1399186300862, value=v1           
+ r2                   column=cf:c2, timestamp=1399186630582, value=v2updated    
+ r3                   column=cf:c3, timestamp=1399186340234, value=v3           
+3 row(s) in 0.1640 seconds
+
+hbase(main):010:0> delete 'hbtable', 'r3', 'cf:c3'
+0 row(s) in 0.0760 seconds
+
+hbase(main):011:0> scan 'hbtable'
+ROW                   COLUMN+CELL                                               
+ r1                   column=cf:c1, timestamp=1399186300862, value=v1           
+ r2                   column=cf:c2, timestamp=1399186630582, value=v2updated    
+2 row(s) in 0.1420 seconds
+
+hbase(main):012:0> disable 'hbtable'
+0 row(s) in 2.6980 seconds
+
+hbase(main):013:0> drop 'hbtable'
+0 row(s) in 1.4960 seconds
+
+CReate table :::
+*****************
+
+hbase(main):001:0> create 'emp', 'personal data', 'professional data'
+0 row(s) in 1.5130 seconds
+
+hbase(main):002:0> list
+TABLE                                                                                                                                                                              
+emp                                                                                                                                                                                
+1 row(s) in 0.0290 seconds
+
+hbase(main):003:0> describe 'emp'
+DESCRIPTION                                                                                                         ENABLED                                                        
+ {NAME => 'emp', FAMILIES => [{NAME => 'personal data', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'NONE', REPLI true                                                           
+ CATION_SCOPE => '0', VERSIONS => '3', COMPRESSION => 'NONE', MIN_VERSIONS => '0', TTL => '2147483647', KEEP_DELETE                                                                
+ D_CELLS => 'false', BLOCKSIZE => '65536', IN_MEMORY => 'false', ENCODE_ON_DISK => 'true', BLOCKCACHE => 'true'}, {                                                                
+ NAME => 'professional data', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'NONE', REPLICATION_SCOPE => '0', VERSI                                                                
+ ONS => '3', COMPRESSION => 'NONE', MIN_VERSIONS => '0', TTL => '2147483647', KEEP_DELETED_CELLS => 'false', BLOCKS                                                                
+ IZE => '65536', IN_MEMORY => 'false', ENCODE_ON_DISK => 'true', BLOCKCACHE => 'true'}]}
+
+Insert Record::
+***************
+hbase(main):004:0> put 'emp','empid1','personal data:name','raju'
+0 row(s) in 0.1350 seconds
+
+hbase(main):005:0> put 'emp','empid1','personal data:city','hyderabad'
+0 row(s) in 0.0090 seconds
+
+hbase(main):006:0> put 'emp','empid1','professional data:designation','manager'
+0 row(s) in 0.0060 seconds
+
+hbase(main):007:0> put 'emp','empid1','professional data:salary','50000'
+0 row(s) in 0.0150 seconds
+
+
+hbase(main):008:0> scan 'emp'
+ROW                                           COLUMN+CELL                                                                                                                          
+ empid1                                       column=personal data:city, timestamp=1432019617068, value=hyderabad                                                                  
+ empid1                                       column=personal data:name, timestamp=1432019548298, value=raju                                                                       
+ empid1                                       column=professional data:designation, timestamp=1432019700757, value=manager                                                         
+ empid1                                       column=professional data:salary, timestamp=1432019755174, value=50000                                                                
+1 row(s) in 0.0240 seconds
+
+
+hbase(main):004:0> put 'emp','empid2','personal data:name','imon'
+0 row(s) in 0.1350 seconds
+
+hbase(main):005:0> put 'emp','empid2','personal data:city','clacutta'
+0 row(s) in 0.0090 seconds
+
+hbase(main):006:0> put 'emp','empid2','professional data:designation','developer'
+0 row(s) in 0.0060 seconds
+
+hbase(main):007:0> put 'emp','empid2','professional data:salary','20000'
+0 row(s) in 0.0150 seconds
+
+hbase(main):013:0> scan 'emp'
+ROW                                           COLUMN+CELL                                                                                                                          
+ empid1                                       column=personal data:city, timestamp=1432019617068, value=hyderabad                                                                  
+ empid1                                       column=personal data:name, timestamp=1432019548298, value=raju                                                                       
+ empid1                                       column=professional data:designation, timestamp=1432019700757, value=manager                                                         
+ empid1                                       column=professional data:salary, timestamp=1432019755174, value=50000                                                                
+ empid2                                       column=personal data:city, timestamp=1432020617764, value=clacutta                                                                   
+ empid2                                       column=personal data:name, timestamp=1432020609000, value=imon                                                                       
+ empid2                                       column=professional data:designation, timestamp=1432020626133, value=developer                                                       
+ empid2                                       column=professional data:salary, timestamp=1432020634135, value=20000                                                                
+2 row(s) in 0.0160 seconds
+
+
+Get the data::
+****************
+
+Read specific row::
+-------------------
+hbase(main):016:0> get 'emp', 'empid2'
+COLUMN                                        CELL                                                                                                                                 
+ personal data:city                           timestamp=1432020617764, value=clacutta                                                                                              
+ personal data:name                           timestamp=1432020609000, value=imon                                                                                                  
+ professional data:designation                timestamp=1432020626133, value=developer                                                                                             
+ professional data:salary                     timestamp=1432020634135, value=20000                                                                                                 
+4 row(s) in 0.0120 seconds
+
+
+Read specific cell::
+-------------------
+hbase(main):028:0> get 'emp', 'empid2', {COLUMN => 'personal data:name'}
+COLUMN                                        CELL                                                                                                                                 
+ personal data:name                           timestamp=1432020609000, value=imon                                                                                                  
+1 row(s) in 0.0070 seconds
+
+
+Update the data::
+*****************
+hbase(main):018:0> put 'emp', 'empid2', 'personal data:city','Bangupdated'
+0 row(s) in 0.0140 seconds
+
+hbase(main):019:0> get 'emp', 'empid2'
+COLUMN                                        CELL                                                                                                                                 
+ personal data:city                           timestamp=1432020838719, value=Bangupdated                                                                                           
+ personal data:name                           timestamp=1432020609000, value=imon                                                                                                  
+ professional data:designation                timestamp=1432020626133, value=developer                                                                                             
+ professional data:salary                     timestamp=1432020634135, value=20000                                                                                                 
+4 row(s) in 0.0210 seconds
+
+Delete cell & column::
+**********************
+hbase(main):022:0> delete 'emp','empid1','personal data:name'
+0 row(s) in 0.0130 seconds
+
+hbase(main):023:0> scan 'emp'
+ROW                                           COLUMN+CELL                                                                                                                          
+ empid1                                       column=personal data:city, timestamp=1432019617068, value=hyderabad                                                                  
+ empid1                                       column=professional data:designation, timestamp=1432019700757, value=manager                                                         
+ empid1                                       column=professional data:salary, timestamp=1432019755174, value=50000                                                                
+ empid2                                       column=personal data:city, timestamp=1432020838719, value=Bangupdated                                                                
+ empid2                                       column=personal data:name, timestamp=1432020609000, value=imon                                                                       
+ empid2                                       column=professional data:designation, timestamp=1432020626133, value=developer                                                       
+ empid2                                       column=professional data:salary, timestamp=1432020634135, value=20000                                                                
+2 row(s) in 0.0140 seconds
+
+Count the number of rows of a table::
+*************************************
+hbase(main):029:0> count 'emp'
+2 row(s) in 0.0130 seconds
+
+
+Deleting All Cells in a Table::
+******************************
+hbase(main):024:0> deleteall 'emp','empid1'
+0 row(s) in 0.0240 seconds
+
+Drop Table::
+***************
+hbase(main):004:0> disable 'tab1'
+0 row(s) in 2.0430 seconds
+
+hbase(main):005:0> drop 'tab1'
+0 row(s) in 1.0810 seconds
+
+hbase(main):006:0> exists 'tab1'
+Table tab1 does not exist                                                                                                                                                          
+0 row(s) in 0.0180 seconds
+
+********************************************************************************
+More Data - 
+
+hbase(main):004:0> put 'emp','empid3','personal data:name','imon'
+0 row(s) in 0.1350 seconds
+
+hbase(main):005:0> put 'emp','empid3','personal data:city','clacutta'
+0 row(s) in 0.0090 seconds
+
+hbase(main):006:0> put 'emp','empid3','professional data:designation','developer'
+0 row(s) in 0.0060 seconds
+
+hbase(main):007:0> put 'emp','empid3','professional data:salary','60000'
+0 row(s) in 0.0150 seconds
+
+
+hbase(main):004:0> put 'emp','empid4','personal data:name','imon'
+0 row(s) in 0.1350 seconds
+
+hbase(main):005:0> put 'emp','empid4','personal data:city','clacutta'
+0 row(s) in 0.0090 seconds
+
+hbase(main):006:0> put 'emp','empid4','professional data:designation','developer'
+0 row(s) in 0.0060 seconds
+
+hbase(main):007:0> put 'emp','empid4','professional data:salary','40000'
+0 row(s) in 0.0150 seconds
+
+
+hbase(main):004:0> put 'emp','empid5','personal data:name','imon5'
+0 row(s) in 0.1350 seconds
+
+hbase(main):005:0> put 'emp','empid5','personal data:city','chennai'
+0 row(s) in 0.0090 seconds
+
+hbase(main):006:0> put 'emp','empid5','professional data:designation','developer'
+0 row(s) in 0.0060 seconds
+
+hbase(main):007:0> put 'emp','empid5','professional data:salary','30000'
+0 row(s) in 0.0150 seconds
+
+
+
+hbase(main):004:0> put 'emp','empid6','personal data:name','imon6'
+0 row(s) in 0.1350 seconds
+
+hbase(main):005:0> put 'emp','empid6','personal data:city','calcutta'
+0 row(s) in 0.0090 seconds
+
+hbase(main):006:0> put 'emp','empid6','professional data:designation','developer'
+0 row(s) in 0.0060 seconds
+
+hbase(main):007:0> put 'emp','empid6','professional data:salary','10000'
+0 row(s) in 0.0150 seconds
+
+********************************
+hbase(main):052:0> create 'reducetable', 'cf'
+0 row(s) in 1.1100 seconds
+
+
+
+
+scan 'emp',{FILTER=>"SingleColumnValueFilter('personal data','city',=,'binary:cal')"}
+
+scan 'airline' ,{ FILTER => "SingleColumnValueFilter('flightbetween','source',=, 'binary:hyd')" }
+
+**************************************
+
+
+
+bin/hbase org.apache.hadoop.hbase.mapreduce.Driver export \cust_info /home/ubuntu/practicedata/hbase/dump/
+

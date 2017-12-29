@@ -1,0 +1,383 @@
+hbase(main):002:0> scan 'emp'
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+ empid1                                                    column=personal data:city, timestamp=1432036036806, value=hyderabad                                                                                                         
+ empid1                                                    column=personal data:name, timestamp=1432036988555, value=raju                                                                                                              
+ empid1                                                    column=professional data:designation, timestamp=1432019700757, value=manager                                                                                                
+ empid1                                                    column=professional data:salary, timestamp=1432019755174, value=50000                                                                                                       
+ empid2                                                    column=personal data:city, timestamp=1432020838719, value=Bangupdated                                                                                                       
+ empid2                                                    column=personal data:name, timestamp=1432020609000, value=imon                                                                                                              
+ empid2                                                    column=professional data:designation, timestamp=1432020626133, value=developer                                                                                              
+ empid2                                                    column=professional data:salary, timestamp=1432020634135, value=20000                                                                                                       
+ empid3                                                    column=personal data:city, timestamp=1432035836633, value=clacutta                                                                                                          
+ empid3                                                    column=personal data:name, timestamp=1432035826132, value=imon                                                                                                              
+ empid3                                                    column=professional data:designation, timestamp=1432035845128, value=developer                                                                                              
+ empid3                                                    column=professional data:salary, timestamp=1432035852874, value=60000                                                                                                       
+ empid4                                                    column=personal data:city, timestamp=1432035871925, value=clacutta                                                                                                          
+ empid4                                                    column=personal data:name, timestamp=1432035864397, value=imon                                                                                                              
+ empid4                                                    column=professional data:designation, timestamp=1432035878935, value=developer                                                                                              
+ empid4                                                    column=professional data:salary, timestamp=1432035886437, value=40000                                                                                                       
+ empid5                                                    column=personal data:city, timestamp=1432035905012, value=chennai                                                                                                           
+ empid5                                                    column=personal data:name, timestamp=1432035896702, value=imon5                                                                                                             
+ empid5                                                    column=professional data:designation, timestamp=1432035913271, value=developer                                                                                              
+ empid5                                                    column=professional data:salary, timestamp=1432035920886, value=30000                                                                                                       
+ empid6                                                    column=personal data:city, timestamp=1432035940519, value=calcutta                                                                                                          
+ empid6                                                    column=personal data:name, timestamp=1432035931363, value=imon6                                                                                                             
+ empid6                                                    column=professional data:designation, timestamp=1432035947782, value=developer                                                                                              
+ empid6                                                    column=professional data:salary, timestamp=1432035955200, value=10000                                                                                                       
+6 row(s) in 0.4110 seconds
+
+
+Find all the city name starting with 'cla' - 
+*********************************************
+
+
+hbase(main):010:0> scan 'emp',{FILTER=>"SingleColumnValueFilter('personal data','city',=,'binaryprefix:cla')"}
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+ empid3                                                    column=personal data:city, timestamp=1432035836633, value=clacutta                                                                                                          
+ empid3                                                    column=personal data:name, timestamp=1432035826132, value=imon                                                                                                              
+ empid3                                                    column=professional data:designation, timestamp=1432035845128, value=developer                                                                                              
+ empid3                                                    column=professional data:salary, timestamp=1432035852874, value=60000                                                                                                       
+ empid4                                                    column=personal data:city, timestamp=1432035871925, value=clacutta                                                                                                          
+ empid4                                                    column=personal data:name, timestamp=1432035864397, value=imon                                                                                                              
+ empid4                                                    column=professional data:designation, timestamp=1432035878935, value=developer                                                                                              
+ empid4                                                    column=professional data:salary, timestamp=1432035886437, value=40000                                                                                                       
+2 row(s) in 0.0150 seconds
+
+
+
+Note::
+------
+SingleColumnValue return few rows with all the columns present in the table. It will not omit any column.
+
+hbase(main):005:0> scan 'emp',{FILTER=>"SingleColumnValueFilter('personal data','city',=,'binary:cla')"}
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+0 row(s) in 0.0260 seconds
+
+hbase(main):009:0> scan 'emp',{FILTER=>"SingleColumnValueFilter('personal data','city',=,'binary:clacutta')"}
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+ empid3                                                    column=personal data:city, timestamp=1432035836633, value=clacutta                                                                                                          
+ empid3                                                    column=personal data:name, timestamp=1432035826132, value=imon                                                                                                              
+ empid3                                                    column=professional data:designation, timestamp=1432035845128, value=developer                                                                                              
+ empid3                                                    column=professional data:salary, timestamp=1432035852874, value=60000                                                                                                       
+ empid4                                                    column=personal data:city, timestamp=1432035871925, value=clacutta                                                                                                          
+ empid4                                                    column=personal data:name, timestamp=1432035864397, value=imon                                                                                                              
+ empid4                                                    column=professional data:designation, timestamp=1432035878935, value=developer                                                                                              
+ empid4                                                    column=professional data:salary, timestamp=1432035886437, value=40000                                                                                                       
+2 row(s) in 0.0240 seconds
+
+KeyOnlyFilter::
+*************
+This filter does not take any arguments. It returns only the key component of each key-value.Value is blank.
+
+hbase(main):002:0> scan 'emp',{ FILTER => "KeyOnlyFilter()"}
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+ empid1                                                    column=personal data:city, timestamp=1432036036806, value=                                                                                                                  
+ empid1                                                    column=personal data:name, timestamp=1432036988555, value=                                                                                                                  
+ empid1                                                    column=professional data:designation, timestamp=1432019700757, value=                                                                                                       
+ empid1                                                    column=professional data:salary, timestamp=1432019755174, value=                                                                                                            
+ empid2                                                    column=personal data:city, timestamp=1432020838719, value=                                                                                                                  
+ empid2                                                    column=personal data:name, timestamp=1432020609000, value=                                                                                                                  
+ empid2                                                    column=professional data:designation, timestamp=1432020626133, value=                                                                                                       
+ empid2                                                    column=professional data:salary, timestamp=1432020634135, value=                                                                                                            
+ empid3                                                    column=personal data:city, timestamp=1432035836633, value=                                                                                                                  
+ empid3                                                    column=personal data:name, timestamp=1432035826132, value=                                                                                                                  
+ empid3                                                    column=professional data:designation, timestamp=1432035845128, value=                                                                                                       
+ empid3                                                    column=professional data:salary, timestamp=1432035852874, value=                                                                                                            
+ empid4                                                    column=personal data:city, timestamp=1432035871925, value=                                                                                                                  
+ empid4                                                    column=personal data:name, timestamp=1432035864397, value=                                                                                                                  
+ empid4                                                    column=professional data:designation, timestamp=1432035878935, value=                                                                                                       
+ empid4                                                    column=professional data:salary, timestamp=1432035886437, value=                                                                                                            
+ empid5                                                    column=personal data:city, timestamp=1432035905012, value=                                                                                                                  
+ empid5                                                    column=personal data:name, timestamp=1432035896702, value=                                                                                                                  
+ empid5                                                    column=professional data:designation, timestamp=1432035913271, value=                                                                                                       
+ empid5                                                    column=professional data:salary, timestamp=1432035920886, value=                                                                                                            
+ empid6                                                    column=personal data:city, timestamp=1432035940519, value=                                                                                                                  
+ empid6                                                    column=personal data:name, timestamp=1432035931363, value=                                                                                                                  
+ empid6                                                    column=professional data:designation, timestamp=1432035947782, value=                                                                                                       
+ empid6                                                    column=professional data:salary, timestamp=1432035955200, value=                                                                                                            
+6 row(s) in 0.1470 seconds
+
+
+FirstKeyOnlyFilter::
+********************
+This filter doesntt take any arguments. It returns only the first key-value from each row.
+
+hbase(main):003:0> scan 'emp',{ FILTER => "FirstKeyOnlyFilter()"}
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+ empid1                                                    column=personal data:city, timestamp=1432036036806, value=hyderabad                                                                                                         
+ empid2                                                    column=personal data:city, timestamp=1432020838719, value=Bangupdated                                                                                                       
+ empid3                                                    column=personal data:city, timestamp=1432035836633, value=clacutta                                                                                                          
+ empid4                                                    column=personal data:city, timestamp=1432035871925, value=clacutta                                                                                                          
+ empid5                                                    column=personal data:city, timestamp=1432035905012, value=chennai                                                                                                           
+ empid6                                                    column=personal data:city, timestamp=1432035940519, value=calcutta                                                                                                          
+6 row(s) in 0.0280 seconds
+
+How do I list all row keys in an hbase table?
+**********************************************
+hbase(main):005:0> count 'emp',INTERVAL=>1
+Current count: 1, row: empid1                                                                                                                                                                                                          
+Current count: 2, row: empid2                                                                                                                                                                                                          
+Current count: 3, row: empid3                                                                                                                                                                                                          
+Current count: 4, row: empid4                                                                                                                                                                                                          
+Current count: 5, row: empid5                                                                                                                                                                                                          
+Current count: 6, row: empid6                                                                                                                                                                                                          
+6 row(s) in 0.0140 seconds
+
+hbase(main):006:0> scan 'emp',{ FILTER => "(FirstKeyOnlyFilter() AND KeyOnlyFilter())"}
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+ empid1                                                    column=personal data:city, timestamp=1432036036806, value=                                                                                                                  
+ empid2                                                    column=personal data:city, timestamp=1432020838719, value=                                                                                                                  
+ empid3                                                    column=personal data:city, timestamp=1432035836633, value=                                                                                                                  
+ empid4                                                    column=personal data:city, timestamp=1432035871925, value=                                                                                                                  
+ empid5                                                    column=personal data:city, timestamp=1432035905012, value=                                                                                                                  
+ empid6                                                    column=personal data:city, timestamp=1432035940519, value=                                                                                                                  
+6 row(s) in 0.0790 seconds
+
+
+Scan s = new Scan();
+FilterList fl = new FilterList();
+// returns first instance of a row, then skip to next row
+fl.addFilter(new FirstKeyOnlyFilter());
+// only return the Key, don't return the value
+fl.addFilter(new KeyOnlyFilter());
+s.setFilter(fl);
+
+HTable myTable;
+ResultScanner rs = myTable.getScanner(s);
+Result row = rs.next();
+while (row != null) ...
+
+
+
+Configuration conf = HBaseConfiguration.create();
+HTable table = new HTable(conf, tableName.getBytes());
+System.out.println("scanning full table:");
+Scan scan = new Scan();
+scan.setFilter(new FirstKeyOnlyFilter());
+ResultScanner scanner = table.getScanner(scan);
+for (Result rr : scanner) {
+  byte[] key == rr.getRow();
+  ...
+}
+
+Note:: Usage of MUltiple Filters
+
+  hbase> scan 't1', {FILTER => "(PrefixFilter ('row2') AND (QualifierFilter
+(>=, 'binary:xyz'))) AND (TimestampsFilter ( 123, 456))"}
+
+
+prefixfilter:
+**************
+This filter takes one argument  a prefix of a row key. It returns only those key-values present in a row that starts with the specified row prefix
+
+Syntax
+PrefixFilter (<row_prefix>)
+
+
+hbase(main):007:0> scan 'emp', {FILTER => "(PrefixFilter ('1'))"}
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+0 row(s) in 0.0110 seconds
+
+hbase(main):008:0> scan 'emp', {FILTER => "(PrefixFilter ('emp'))"}
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+ empid1                                                    column=personal data:city, timestamp=1432036036806, value=hyderabad                                                                                                         
+ empid1                                                    column=personal data:name, timestamp=1432036988555, value=raju                                                                                                              
+ empid1                                                    column=professional data:designation, timestamp=1432019700757, value=manager                                                                                                
+ empid1                                                    column=professional data:salary, timestamp=1432019755174, value=50000                                                                                                       
+ empid2                                                    column=personal data:city, timestamp=1432020838719, value=Bangupdated                                                                                                       
+ empid2                                                    column=personal data:name, timestamp=1432020609000, value=imon                                                                                                              
+ empid2                                                    column=professional data:designation, timestamp=1432020626133, value=developer                                                                                              
+ empid2                                                    column=professional data:salary, timestamp=1432020634135, value=20000                                                                                                       
+ empid3                                                    column=personal data:city, timestamp=1432035836633, value=clacutta                                                                                                          
+ empid3                                                    column=personal data:name, timestamp=1432035826132, value=imon                                                                                                              
+ empid3                                                    column=professional data:designation, timestamp=1432035845128, value=developer                                                                                              
+ empid3                                                    column=professional data:salary, timestamp=1432035852874, value=60000                                                                                                       
+ empid4                                                    column=personal data:city, timestamp=1432035871925, value=clacutta                                                                                                          
+ empid4                                                    column=personal data:name, timestamp=1432035864397, value=imon                                                                                                              
+ empid4                                                    column=professional data:designation, timestamp=1432035878935, value=developer                                                                                              
+ empid4                                                    column=professional data:salary, timestamp=1432035886437, value=40000                                                                                                       
+ empid5                                                    column=personal data:city, timestamp=1432035905012, value=chennai                                                                                                           
+ empid5                                                    column=personal data:name, timestamp=1432035896702, value=imon5                                                                                                             
+ empid5                                                    column=professional data:designation, timestamp=1432035913271, value=developer                                                                                              
+ empid5                                                    column=professional data:salary, timestamp=1432035920886, value=30000                                                                                                       
+ empid6                                                    column=personal data:city, timestamp=1432035940519, value=calcutta                                                                                                          
+ empid6                                                    column=personal data:name, timestamp=1432035931363, value=imon6                                                                                                             
+ empid6                                                    column=professional data:designation, timestamp=1432035947782, value=developer                                                                                              
+ empid6                                                    column=professional data:salary, timestamp=1432035955200, value=10000                                                                                                       
+6 row(s) in 0.0540 seconds
+
+hbase(main):009:0> scan 'emp', {FILTER => "(PrefixFilter ('empid1'))"}
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+ empid1                                                    column=personal data:city, timestamp=1432036036806, value=hyderabad                                                                                                         
+ empid1                                                    column=personal data:name, timestamp=1432036988555, value=raju                                                                                                              
+ empid1                                                    column=professional data:designation, timestamp=1432019700757, value=manager                                                                                                
+ empid1                                                    column=professional data:salary, timestamp=1432019755174, value=50000                                                                                                       
+1 row(s) in 0.0060 seconds
+
+
+
+ColumnPrefixFilter
+*******************
+This filter takes one argument  a column prefix. It returns only those key-values present in a column that starts with the specified column prefix. The column prefix must be of the form qualifier
+
+Syntax
+ColumnPrefixFilter(<column_prefix>)
+
+hbase(main):010:0> scan 'emp', {FILTER => "(PrefixFilter ('empid1')) AND ColumnPrefixFilter('city')"}
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+ empid1                                                    column=personal data:city, timestamp=1432036036806, value=hyderabad                                                                                                         
+1 row(s) in 0.0120 seconds
+
+
+MultipleColumnPrefixFilter
+**************************
+This filter takes a list of column prefixes. It returns key-values that are present in a column that starts with any of the specified column prefixes. Each of the column prefixes must be of the form qualifier
+
+Syntax
+MultipleColumnPrefixFilter(â€˜<column_prefix>,<column_prefix>,….<column_prefix>)
+
+It's irrespective of column family
+
+hbase(main):011:0> scan 'emp',{FILTER => "MultipleColumnPrefixFilter('city','designation','salary')"}
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+ empid1                                                    column=personal data:city, timestamp=1432036036806, value=hyderabad                                                                                                         
+ empid1                                                    column=professional data:designation, timestamp=1432019700757, value=manager                                                                                                
+ empid1                                                    column=professional data:salary, timestamp=1432019755174, value=50000                                                                                                       
+ empid2                                                    column=personal data:city, timestamp=1432020838719, value=Bangupdated                                                                                                       
+ empid2                                                    column=professional data:designation, timestamp=1432020626133, value=developer                                                                                              
+ empid2                                                    column=professional data:salary, timestamp=1432020634135, value=20000                                                                                                       
+ empid3                                                    column=personal data:city, timestamp=1432035836633, value=clacutta                                                                                                          
+ empid3                                                    column=professional data:designation, timestamp=1432035845128, value=developer                                                                                              
+ empid3                                                    column=professional data:salary, timestamp=1432035852874, value=60000                                                                                                       
+ empid4                                                    column=personal data:city, timestamp=1432035871925, value=clacutta                                                                                                          
+ empid4                                                    column=professional data:designation, timestamp=1432035878935, value=developer                                                                                              
+ empid4                                                    column=professional data:salary, timestamp=1432035886437, value=40000                                                                                                       
+ empid5                                                    column=personal data:city, timestamp=1432035905012, value=chennai                                                                                                           
+ empid5                                                    column=professional data:designation, timestamp=1432035913271, value=developer                                                                                              
+ empid5                                                    column=professional data:salary, timestamp=1432035920886, value=30000                                                                                                       
+ empid6                                                    column=personal data:city, timestamp=1432035940519, value=calcutta                                                                                                          
+ empid6                                                    column=professional data:designation, timestamp=1432035947782, value=developer                                                                                              
+ empid6                                                    column=professional data:salary, timestamp=1432035955200, value=10000                                                                                                       
+6 row(s) in 0.0410 seconds
+
+
+ColumnCountGetFilter
+*********************
+This filter takes one argument  a limit. It returns the first limit number of columns in the table.
+
+Syntax
+ColumnCountGetFilter(<limit>)
+
+hbase(main):012:0> scan 'emp',{FILTER => "ColumnCountGetFilter(2)"}
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+ empid1                                                    column=personal data:city, timestamp=1432036036806, value=hyderabad                                                                                                         
+ empid1                                                    column=personal data:name, timestamp=1432036988555, value=raju                                                                                                              
+ empid2                                                    column=personal data:city, timestamp=1432020838719, value=Bangupdated                                                                                                       
+ empid2                                                    column=personal data:name, timestamp=1432020609000, value=imon                                                                                                              
+ empid3                                                    column=personal data:city, timestamp=1432035836633, value=clacutta                                                                                                          
+ empid3                                                    column=personal data:name, timestamp=1432035826132, value=imon                                                                                                              
+ empid4                                                    column=personal data:city, timestamp=1432035871925, value=clacutta                                                                                                          
+ empid4                                                    column=personal data:name, timestamp=1432035864397, value=imon                                                                                                              
+ empid5                                                    column=personal data:city, timestamp=1432035905012, value=chennai                                                                                                           
+ empid5                                                    column=personal data:name, timestamp=1432035896702, value=imon5                                                                                                             
+ empid6                                                    column=personal data:city, timestamp=1432035940519, value=calcutta                                                                                                          
+ empid6                                                    column=personal data:name, timestamp=1432035931363, value=imon6                                                                                                             
+6 row(s) in 0.0240 seconds
+
+
+
+PageFilter::
+************
+This filter takes one argument a page size. It returns page size number of rows from the table.
+
+Syntax
+PageFilter (<page_size>)
+
+
+hbase(main):001:0> scan 'emp',{FILTER => "PageFilter(3)"}
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+ empid1                                                    column=personal data:city, timestamp=1432036036806, value=hyderabad                                                                                                         
+ empid1                                                    column=personal data:name, timestamp=1432036988555, value=raju                                                                                                              
+ empid1                                                    column=professional data:designation, timestamp=1432019700757, value=manager                                                                                                
+ empid1                                                    column=professional data:salary, timestamp=1432019755174, value=50000                                                                                                       
+ empid2                                                    column=personal data:city, timestamp=1432020838719, value=Bangupdated                                                                                                       
+ empid2                                                    column=personal data:name, timestamp=1432020609000, value=imon                                                                                                              
+ empid2                                                    column=professional data:designation, timestamp=1432020626133, value=developer                                                                                              
+ empid2                                                    column=professional data:salary, timestamp=1432020634135, value=20000                                                                                                       
+ empid3                                                    column=personal data:city, timestamp=1432035836633, value=clacutta                                                                                                          
+ empid3                                                    column=personal data:name, timestamp=1432035826132, value=imon                                                                                                              
+ empid3                                                    column=professional data:designation, timestamp=1432035845128, value=developer                                                                                              
+ empid3                                                    column=professional data:salary, timestamp=1432035852874, value=60000                                                                                                       
+3 row(s) in 0.3840 seconds
+
+InclusiveStopFilter
+********************
+This filter takes one argument  a row key on which to stop scanning. It returns all key-values present in rows up to and including the specified row.
+
+Syntax
+InclusiveStopFilter(<stop_row_key>)
+
+
+hbase(main):002:0> scan 'emp',{FILTER => "InclusiveStopFilter('empid2')"}
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+ empid1                                                    column=personal data:city, timestamp=1432036036806, value=hyderabad                                                                                                         
+ empid1                                                    column=personal data:name, timestamp=1432036988555, value=raju                                                                                                              
+ empid1                                                    column=professional data:designation, timestamp=1432019700757, value=manager                                                                                                
+ empid1                                                    column=professional data:salary, timestamp=1432019755174, value=50000                                                                                                       
+ empid2                                                    column=personal data:city, timestamp=1432020838719, value=Bangupdated                                                                                                       
+ empid2                                                    column=personal data:name, timestamp=1432020609000, value=imon                                                                                                              
+ empid2                                                    column=professional data:designation, timestamp=1432020626133, value=developer                                                                                              
+ empid2                                                    column=professional data:salary, timestamp=1432020634135, value=20000                                                                                                       
+2 row(s) in 0.0430 seconds
+
+
+Family Filter(Qualifier Filter)::
+*********************************
+This filter takes a compare operator and a comparator. It compares each qualifier name with the comparator using the compare operator and if the comparison returns true,
+ it returns all the key-values in that column.
+
+Syntax
+QualifierFilter (<compareOp>, <qualifier_comparator>)
+
+hbase(main):003:0> scan 'emp',{ FILTER => "QualifierFilter(=,'binary:city')"}
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+ empid1                                                    column=personal data:city, timestamp=1432036036806, value=hyderabad                                                                                                         
+ empid2                                                    column=personal data:city, timestamp=1432020838719, value=Bangupdated                                                                                                       
+ empid3                                                    column=personal data:city, timestamp=1432035836633, value=clacutta                                                                                                          
+ empid4                                                    column=personal data:city, timestamp=1432035871925, value=clacutta                                                                                                          
+ empid5                                                    column=personal data:city, timestamp=1432035905012, value=chennai                                                                                                           
+ empid6                                                    column=personal data:city, timestamp=1432035940519, value=calcutta                                                                                                          
+6 row(s) in 0.0360 seconds
+
+
+ValueFilter::
+*************
+This filter takes a compare operator and a comparator. It compares each value with the comparator using the compare operator and if the comparison returns true, it returns that key-value.
+
+Syntax
+ValueFilter (<compareOp>,‘<value_comparator>’)
+
+The above all filters are very basic filters in hbase shell
+
+hbase(main):007:0> scan 'emp', { COLUMNS => 'personal data:city', LIMIT => 1, FILTER => "ValueFilter( =, 'binaryprefix:cla' )" }
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+ empid2                                                    column=personal data:city, timestamp=1432020617764, value=clacutta                                                                                                          
+1 row(s) in 0.0230 seconds
+
+
+hbase(main):010:0> scan 'emp' ,{ FILTER => " MultipleColumnPrefixFilter('city') AND (ValueFilter(=,'binary:cla'))" } 
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+0 row(s) in 0.0050 seconds
+
+hbase(main):011:0> scan 'emp' ,{ FILTER => " MultipleColumnPrefixFilter('city') AND (ValueFilter(=,'binary:clacutta'))" } 
+ROW                                                        COLUMN+CELL                                                                                                                                                                 
+ empid2                                                    column=personal data:city, timestamp=1432020617764, value=clacutta                                                                                                          
+ empid3                                                    column=personal data:city, timestamp=1432035836633, value=clacutta                                                                                                          
+ empid4                                                    column=personal data:city, timestamp=1432035871925, value=clacutta                                                                                                          
+3 row(s) in 0.0090 seconds
+
+
+
+
+
+

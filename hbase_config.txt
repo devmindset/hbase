@@ -1,0 +1,10 @@
+bin/hadoop fs -copyFromLocal /home/ubuntu/practicedata/wordcount.txt /user/wordcount/wordcount.txt
+
+
+ubuntu@ubuntu:/usr/local/hbase-0.94.5$ cd lib
+ubuntu@ubuntu:/usr/local/hbase-0.94.5/lib$ sudo rm hadoop-core-1.0.4.jar
+[sudo] password for ubuntu: 
+ubuntu@ubuntu:/usr/local/hbase-0.94.5/lib$ sudo copy /usr/local/hadoop/hadoop-core-1.2.1.jar  /usr/local/hbase-0.94.5/lib
+sudo: copy: command not found
+ubuntu@ubuntu:/usr/local/hbase-0.94.5/lib$ sudo cp /usr/local/hadoop/hadoop-core-1.2.1.jar  /usr/local/hbase-0.94.5/lib
+ubuntu@ubuntu:/usr/local/hbase-0.94.5/lib$

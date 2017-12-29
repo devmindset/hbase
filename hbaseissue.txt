@@ -1,0 +1,14 @@
+May be you will face this problem during programming:
+
+ Problem 1:
+
+WARN zookeeper.ClientCnxn: Session 0x0 for server null, unexpected error, closing socket connection and attempting reconnect java.net.ConnectException: Connection refused
+
+ Solution: Start Hbase
+
+ Problem 2:
+
+Exception in thread “main” java.lang.NoClassDefFoundError: com/google/protobuf/Message
+
+ Solution:  Add protobuf-java-2.4.0a.jar
+

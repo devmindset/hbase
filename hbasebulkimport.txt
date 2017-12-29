@@ -1,0 +1,7 @@
+1,debojyoti1,sarkar1,d1.s@gmail.com,Kolkata
+2,debojyoti2,sarkar2,d2.s@gmail.com,Bangalore
+3,debojyoti3,sarkar3,d3.s@gmail.com,Mumbai
+4,debojyoti4,sarkar4,d4.s@gmail.com,Delhi
+5,debojyoti5,sarkar5,d5.s@gmail.com,Pune
+6,debojyoti6,sarkar6,d6.s@gmail.com,Kolkata
+7,debojyoti7,sarkar7,d7.s@gmail.com,Bangalore

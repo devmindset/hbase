@@ -1,0 +1,4 @@
+CREATE TABLE hive_hbasetable_k(key int, value string)
+STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
+WITH SERDEPROPERTIES ("hbase.columns.mapping" = ":key,cf1:val")
+TBLPROPERTIES ("hbase.table.name" = "hivehbasek");
